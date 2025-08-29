@@ -7,13 +7,8 @@ import numpy as np
 import wandb
 import sys
 from src.loss import LossWrapper
-from src.metric import MetricWrapper
+from src.metrics import MetricWrapper
 from utils.stft_istft import STFT, ISTFT
-
-
-
-
-
 
 
 class ORSEModel(pl.LightningModule):
