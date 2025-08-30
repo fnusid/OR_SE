@@ -1,5 +1,5 @@
-ckpts
-lightning_logs
-or_speech_enhancement
-wandb
-
+/ckpts
+/lightning_logs
+/or_speech_enhancement
+/wandb
+/utils/*.wav
