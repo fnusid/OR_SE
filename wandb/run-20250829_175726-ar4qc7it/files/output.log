@@ -1,0 +1,133 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:54: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  ALLREDUCE = partial(_ddp_comm_hook_wrapper, comm_hook=default.allreduce_hook)
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:55: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  FP16_COMPRESS = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:58: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BF16_COMPRESS = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:61: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  QUANTIZE_PER_TENSOR = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:64: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  QUANTIZE_PER_CHANNEL = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:67: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  POWER_SGD = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:74: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  POWER_SGD_RANK2 = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:80: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BATCHED_POWER_SGD = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:85: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BATCHED_POWER_SGD_RANK2 = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:90: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  NOOP = partial(
+
+  | Name              | Type          | Params | Mode
+------------------------------------------------------------
+0 | loss_fn           | LossWrapper   | 0      | train
+1 | metric            | MetricWrapper | 0      | train
+2 | stft              | STFT          | 0      | train
+3 | istft             | ISTFT         | 0      | train
+4 | enc_layers        | ModuleList    | 194 K  | train
+5 | bottleneck_layers | ModuleList    | 1.1 M  | train
+6 | dec_layers        | ModuleList    | 193 K  | train
+------------------------------------------------------------
+1.4 M     Trainable params
+0         Non-trainable params
+1.4 M     Total params
+5.766     Total estimated model params size (MB)
+71        Modules in train mode
+0         Modules in eval mode
+Sanity Checking: |                                                             | 0/? [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/train.py", line 81, in <module>
+    trainer.fit(model, dm, ckpt_path=config.ckpt_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 48, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 105, in launch
+    return function(*args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1054, in _run_stage
+    self._run_sanity_check()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1083, in _run_sanity_check
+    val_loop.run()
+    ~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 120, in run
+    self.setup_data()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 176, in setup_data
+    dataloaders = _request_dataloader(source)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py", line 334, in _request_dataloader
+    return data_source.dataloader()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py", line 301, in dataloader
+    return call._call_lightning_datamodule_hook(self.instance.trainer, self.name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 199, in _call_lightning_datamodule_hook
+    return fn(*args, **kwargs)
+  File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/dataset.py", line 219, in val_dataloader
+    _worker_init_fn = _worker_init_fn()
+TypeError: _worker_init_fn() missing 1 required positional argument: '_'
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank0]:   File "<frozen runpy>", line 88, in _run_code
+[rank0]:   File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/train.py", line 81, in <module>
+[rank0]:     trainer.fit(model, dm, ckpt_path=config.ckpt_path)
+[rank0]:     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+[rank0]:         self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+[rank0]:         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:     )
+[rank0]:     ^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=ckpt_path)
+[rank0]:     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1012, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1054, in _run_stage
+[rank0]:     self._run_sanity_check()
+[rank0]:     ~~~~~~~~~~~~~~~~~~~~~~^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1083, in _run_sanity_check
+[rank0]:     val_loop.run()
+[rank0]:     ~~~~~~~~~~~~^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/utilities.py", line 179, in _decorator
+[rank0]:     return loop_run(self, *args, **kwargs)
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 120, in run
+[rank0]:     self.setup_data()
+[rank0]:     ~~~~~~~~~~~~~~~^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 176, in setup_data
+[rank0]:     dataloaders = _request_dataloader(source)
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py", line 334, in _request_dataloader
+[rank0]:     return data_source.dataloader()
+[rank0]:            ~~~~~~~~~~~~~~~~~~~~~~^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py", line 301, in dataloader
+[rank0]:     return call._call_lightning_datamodule_hook(self.instance.trainer, self.name)
+[rank0]:            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 199, in _call_lightning_datamodule_hook
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:   File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/dataset.py", line 219, in val_dataloader
+[rank0]:     _worker_init_fn = _worker_init_fn()
+[rank0]: TypeError: _worker_init_fn() missing 1 required positional argument: '_'

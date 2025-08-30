@@ -18,9 +18,9 @@ class ORSEModel(pl.LightningModule):
                  fft_len = 512,
                  win = 'sine',
                  length = 1,
-                 enc_filters = [16,32,64,64,128,256],
-                 enc_kernels = [(5,1), (3,1), (3,1), (3,1), (3,1), (3,1)], #[F,T] keeping it causal
-                 enc_strides = [(2,1), (2,1), (2,1), (2,1), (2,1), (2,1)],
+                 enc_filters = [16,32,64,64,128,128,256],
+                 enc_kernels = [(5,1), (3,1), (3,1), (3,1), (3,1), (3,1), (3,1)], #[F,T] keeping it causal
+                 enc_strides = [(2,1), (2,1), (2,1), (2,1), (2,1), (2,1), (2,1)],
                  in_channels = 2, # real and imag, or mag and phase
                  num_bottleneck_layers = 2,
                  loss_fn = ['mse', 'complex_spectral'],
@@ -28,6 +28,7 @@ class ORSEModel(pl.LightningModule):
                  lr = 1e-3,
                  alpha=0.5, 
                  metric='DNSMOS',
+                 world_size = 1
 
                  ):
         super(ORSEModel, self).__init__()
@@ -36,6 +37,7 @@ class ORSEModel(pl.LightningModule):
         self.loss_fn = LossWrapper(loss_fn, loss_weights, alpha=alpha)
         self.metric = MetricWrapper(metric)
         self.lr = lr
+        self.world_size = world_size
 
         #Define the stft params and layers
         self.frame_len = frame_len
@@ -67,7 +69,7 @@ class ORSEModel(pl.LightningModule):
         #define the bottleneck layer the same way
         self.bottleneck_layers = nn.ModuleList()
         for i in range(self.num_bottleneck_layers):
-            bottleneck_layer = self.build_bottleneck_layer(self.in_channels*5)
+            bottleneck_layer = self.build_bottleneck_layer(self.in_channels)
             self.bottleneck_layers.append(bottleneck_layer)
 
         # define the decoder layer
@@ -102,9 +104,9 @@ class ORSEModel(pl.LightningModule):
         out = out.view(B,T,C,F).permute(0,2,3,1).contiguous() # [B, C, F, T]
         #Decoder
         for dec_layer in self.dec_layers:
-            out += enc_out_list.pop() #skip connection
+            out = out +  enc_out_list.pop() #skip connection
             out = dec_layer(out)
-        
+    
         #define a complex ratio masking function here
         mask = torch.tanh(out) # [B, 2, F, T], range -1 to 1
         real, imag = x_stft.unbind(1)
@@ -115,7 +117,7 @@ class ORSEModel(pl.LightningModule):
         return x_est, x_stft_est
 
     def build_enc_layer(self, in_channels, out_channels, kernel_size, stride):
-        return nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size=kernel_size, stride=stride, padding=(kernel_size[0]//2,0)), #causal conv
+        return nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size=kernel_size, stride=stride, padding='valid'), #causal conv
                               nn.BatchNorm2d(out_channels),
                                 nn.ReLU())
     
@@ -126,9 +128,11 @@ class ORSEModel(pl.LightningModule):
         return bl
     
     def build_dec_layer(self, in_channels, out_channels, kernel_size, stride):
-        return nn.Sequential(nn.ConvTranspose2d(in_channels, out_channels, kernel_size=kernel_size, stride=stride, padding=(kernel_size[0]//2,0)),
+        return nn.Sequential(nn.ConvTranspose2d(in_channels, out_channels, kernel_size=kernel_size, stride=stride),
                               nn.BatchNorm2d(out_channels),
                                 nn.ReLU())
+
+
     
     def on_train_epoch_end(self):
         pass
@@ -137,16 +141,17 @@ class ORSEModel(pl.LightningModule):
         pass
 
     def training_step(self, batch, batch_idx):
+
         noisy, clean = batch
-        loss, enhanced_time = self._common_step(noisy)
-        self.log_dict({'train_loss': loss, }, prog_bar=True, on_step=True, on_epoch=True)
+        loss, enhanced_time = self._common_step(noisy, clean)
+        self.log_dict({'train_loss': loss, }, prog_bar=True, on_step=True, on_epoch=True, sync_dist=True)
         return {'loss': loss,}
     
     def validation_step(self, batch, batch_idx):
-        noisy, clean = batch
+        noisy, clean = batch 
         loss, enhanced_time = self._common_step(noisy, clean)
         metric_scores = self.metric(enhanced_time, sr=16000)
-        self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}, prog_bar=True, on_step=False, on_epoch=True)
+        self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
         return {'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}
     
     def _common_step(self, noisy, clean):

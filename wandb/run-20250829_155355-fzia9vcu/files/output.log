@@ -1,0 +1,33 @@
+Restoring states from the checkpoint path at checkpoints/
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/train.py", line 68, in <module>
+    trainer.fit(model, dm, ckpt_path=config.ckpt_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 981, in _run
+    self._checkpoint_connector._restore_modules_and_callbacks(ckpt_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/checkpoint_connector.py", line 408, in _restore_modules_and_callbacks
+    self.resume_start(checkpoint_path)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/checkpoint_connector.py", line 83, in resume_start
+    loaded_checkpoint = self.trainer.strategy.load_checkpoint(checkpoint_path)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/strategies/strategy.py", line 368, in load_checkpoint
+    return self.checkpoint_io.load_checkpoint(checkpoint_path)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/lightning_fabric/plugins/io/torch_io.py", line 81, in load_checkpoint
+    raise FileNotFoundError(f"Checkpoint file not found: {path}")
+FileNotFoundError: Checkpoint file not found: checkpoints/

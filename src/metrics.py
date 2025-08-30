@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 import sys
-sys.path.append('/scratch/profdj_root/profdj0/shared_data/DNS-Challenge/DNSMOS/')
-from dnsmos import DNSMOSMetric
+
+from utils.dnsmos import DNSMOSMetric
 
 
 class MetricWrapper(nn.Module):
@@ -10,8 +10,8 @@ class MetricWrapper(nn.Module):
         super(MetricWrapper, self).__init__()
         if metric == 'DNSMOS':
             self.metric = DNSMOSMetric(
-                primary_model_path="DNSMOS/sig_bak_ovr.onnx",   # or "pDNSMOS/sig_bak_ovr.onnx"
-                p808_model_path="DNSMOS/model_v8.onnx",
+                primary_model_path="utils/DNSMOS/sig_bak_ovr.onnx",   # or "pDNSMOS/sig_bak_ovr.onnx"
+                p808_model_path="utils/DNSMOS/model_v8.onnx",
                 personalized=False,            # True if using personalized model
                 providers=None                 # e.g. ["CUDAExecutionProvider","CPUExecutionProvider"]
             )

@@ -1,0 +1,52 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:54: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  ALLREDUCE = partial(_ddp_comm_hook_wrapper, comm_hook=default.allreduce_hook)
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:55: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  FP16_COMPRESS = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:58: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BF16_COMPRESS = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:61: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  QUANTIZE_PER_TENSOR = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:64: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  QUANTIZE_PER_CHANNEL = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:67: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  POWER_SGD = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:74: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  POWER_SGD_RANK2 = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:80: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BATCHED_POWER_SGD = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:85: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BATCHED_POWER_SGD_RANK2 = partial(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:90: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  NOOP = partial(
+
+  | Name              | Type          | Params | Mode
+------------------------------------------------------------
+0 | loss_fn           | LossWrapper   | 0      | train
+1 | metric            | MetricWrapper | 0      | train
+2 | stft              | STFT          | 0      | train
+3 | istft             | ISTFT         | 0      | train
+4 | enc_layers        | ModuleList    | 194 K  | train
+5 | bottleneck_layers | ModuleList    | 1.1 M  | train
+6 | dec_layers        | ModuleList    | 193 K  | train
+------------------------------------------------------------
+1.4 M     Trainable params
+0         Non-trainable params
+1.4 M     Total params
+5.766     Total estimated model params size (MB)
+71        Modules in train mode
+0         Modules in eval mode
+Epoch 5:  83%|▊| 523/630 [04:19<00:53,  2.01it/s, v_num=6unt, train_loss_step=0.224, train_loss_epoch=0.228, val_loss=0.228, SIG=2.280, BAK=3.260, OVRL=1.
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:433: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torchaudio/_backend/utils.py:213: UserWarning: In 2.9, this function's implementation will be changed to use torchaudio.load_with_torchcodec` under the hood. Some parameters like ``normalize``, ``format``, ``buffer_size``, and ``backend`` will be ignored. We recommend that you port your code to rely directly on TorchCodec's decoder instead: https://docs.pytorch.org/torchcodec/stable/generated/torchcodec.decoders.AudioDecoder.html#torchcodec.decoders.AudioDecoder.
+  warnings.warn(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/functional.py:730: UserWarning: stft with return_complex=False is deprecated. In a future pytorch release, stft will return complex tensors for all inputs, and return_complex=False will raise an error.
+Note: you can still call torch.view_as_real on the complex output to recover the old return format. (Triggered internally at /pytorch/aten/src/ATen/native/SpectralOps.cpp:875.)
+  return _VF.stft(  # type: ignore[attr-defined]
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torchaudio/_backend/utils.py:213: UserWarning: In 2.9, this function's implementation will be changed to use torchaudio.load_with_torchcodec` under the hood. Some parameters like ``normalize``, ``format``, ``buffer_size``, and ``backend`` will be ignored. We recommend that you port your code to rely directly on TorchCodec's decoder instead: https://docs.pytorch.org/torchcodec/stable/generated/torchcodec.decoders.AudioDecoder.html#torchcodec.decoders.AudioDecoder.
+  warnings.warn(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+                                                                                                                                                          

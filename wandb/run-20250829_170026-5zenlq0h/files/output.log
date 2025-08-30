@@ -1,0 +1,99 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type          | Params | Mode
+------------------------------------------------------------
+0 | loss_fn           | LossWrapper   | 0      | train
+1 | metric            | MetricWrapper | 0      | train
+2 | stft              | STFT          | 0      | train
+3 | istft             | ISTFT         | 0      | train
+4 | enc_layers        | ModuleList    | 194 K  | train
+5 | bottleneck_layers | ModuleList    | 1.1 M  | train
+6 | dec_layers        | ModuleList    | 193 K  | train
+------------------------------------------------------------
+1.4 M     Trainable params
+0         Non-trainable params
+1.4 M     Total params
+5.766     Total estimated model params size (MB)
+71        Modules in train mode
+0         Modules in eval mode
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:433: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=15` in the `DataLoader` to improve performance.
+Traceback (most recent call last):
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fit_loop.py", line 208, in run
+    self.setup_data()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fit_loop.py", line 275, in setup_data
+    iter(self._data_fetcher)  # creates the iterator inside the fetcher
+    ~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fetchers.py", line 105, in __iter__
+    super().__iter__()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fetchers.py", line 52, in __iter__
+    self.iterator = iter(self.combined_loader)
+                    ~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/utilities/combined_loader.py", line 351, in __iter__
+    iter(iterator)
+    ~~~~^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/utilities/combined_loader.py", line 92, in __iter__
+    super().__iter__()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/utilities/combined_loader.py", line 43, in __iter__
+    self.iterators = [iter(iterable) for iterable in self.iterables]
+                      ~~~~^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 494, in __iter__
+    return self._get_iterator()
+           ~~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 424, in _get_iterator
+    return _SingleProcessDataLoaderIter(self)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 769, in __init__
+    assert self._timeout == 0
+           ^^^^^^^^^^^^^^^^^^
+AssertionError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/train.py", line 86, in <module>
+    trainer.fit(model, dm, ckpt_path=config.ckpt_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 70, in _call_and_handle_interrupt
+    trainer._teardown()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1039, in _teardown
+    loop.teardown()
+    ~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fit_loop.py", line 502, in teardown
+    self._data_fetcher.teardown()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fetchers.py", line 80, in teardown
+    self.reset()
+    ~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fetchers.py", line 142, in reset
+    super().reset()
+    ~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fetchers.py", line 76, in reset
+    self.length = sized_len(self.combined_loader)
+                  ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/lightning_fabric/utilities/data.py", line 52, in sized_len
+    length = len(dataloader)  # type: ignore [arg-type]
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/utilities/combined_loader.py", line 358, in __len__
+    raise RuntimeError("Please call `iter(combined_loader)` first.")
+RuntimeError: Please call `iter(combined_loader)` first.

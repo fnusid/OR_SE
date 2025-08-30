@@ -5,6 +5,18 @@ import src.config as config
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import Callback, EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers.wandb import WandbLogger
+import torch.multiprocessing as mp
+try:
+    mp.set_start_method("spawn", force=True)  # avoid fork deadlocks on SLURM
+except RuntimeError:
+    pass
+
+# Optional: use soundfile backend; avoids some torchaudio/sox quirks
+import torchaudio
+try:
+    torchaudio.set_audio_backend("soundfile")
+except Exception:
+    pass
 
 """
 If you want to run thsi code, just follow the command below
@@ -19,7 +31,7 @@ black .
 
 if __name__ == "__main__":
     logger = WandbLogger(project="or_speech_enhancement")
-    breakpoint()
+
     model = ORSEModel(
         frame_len = config.frame_len,
         hop_len = config.hop_len,
@@ -54,11 +66,14 @@ if __name__ == "__main__":
     # Train the model using pl trainer
     trainer = pl.Trainer(
         max_epochs=config.max_epochs,
+        detect_anomaly=True,
+        gradient_clip_val=1.0,   
         check_val_every_n_epoch=config.check_val_every_n_epoch,
         log_every_n_steps=config.log_every_n_steps,
         enable_checkpointing=config.enable_checkpointing,
         accelerator=config.accelerator,
         devices=config.devices,
+
         callbacks=[
             EarlyStopping(monitor='val_loss', patience=10, mode='min'),
             ModelCheckpoint(monitor='val_loss', mode='min', save_top_k=3, filename='best-checkpoint-{epoch:02d}-{val_loss:.2f}')

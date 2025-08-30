@@ -1,0 +1,114 @@
+{
+  "os": "Linux-4.18.0-553.50.1.el8_10.x86_64-x86_64-with-glibc2.28",
+  "python": "CPython 3.13.5",
+  "startedAt": "2025-08-29T21:08:15.158858Z",
+  "program": "-m src.train",
+  "git": {
+    "remote": "https://github.com/fnusid/OR_SE.git",
+    "commit": "a9e29612be66ebf63a2ae14e967f102b8db3e09d"
+  },
+  "email": "sidharthcet1729@gmail.com",
+  "root": ".",
+  "host": "armis20113.arc-ts.umich.edu",
+  "executable": "/home/sidcs/miniconda3/envs/or_se/bin/python",
+  "cpu_count": 16,
+  "cpu_count_logical": 16,
+  "gpu": "NVIDIA TITAN V",
+  "gpu_count": 4,
+  "disk": {
+    "/": {
+      "total": "21464350720",
+      "used": "11276103680"
+    }
+  },
+  "memory": {
+    "total": "134505705472"
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA TITAN V",
+      "memoryTotal": "12884901888",
+      "cudaCores": 5120,
+      "architecture": "Volta",
+      "uuid": "GPU-aef1d0b8-8461-9715-92b1-e8d699b5c16c"
+    },
+    {
+      "name": "NVIDIA TITAN V",
+      "memoryTotal": "12884901888",
+      "cudaCores": 5120,
+      "architecture": "Volta",
+      "uuid": "GPU-1b109f14-1fd3-8d30-2fed-3bad87f15886"
+    },
+    {
+      "name": "NVIDIA TITAN V",
+      "memoryTotal": "12884901888",
+      "cudaCores": 5120,
+      "architecture": "Volta",
+      "uuid": "GPU-82cb53d8-b93d-1396-4d35-54ea874a2447"
+    },
+    {
+      "name": "NVIDIA TITAN V",
+      "memoryTotal": "12884901888",
+      "cudaCores": 5120,
+      "architecture": "Volta",
+      "uuid": "GPU-4851d8f0-38cb-21bb-7d50-f688b7eab76a"
+    }
+  ],
+  "cudaVersion": "12.8",
+  "slurm": {
+    "cluster_name": "armis2",
+    "conf": "/var/spool/slurmd.spool/conf-cache/slurm.conf",
+    "cpus_on_node": "16",
+    "cpus_per_task": "16",
+    "gpus_on_node": "4",
+    "gtids": "0",
+    "job_account": "profdj0",
+    "job_cpus_per_node": "16",
+    "job_end_time": "1756668527",
+    "job_gid": "114447794",
+    "job_gpus": "0,1,2,3",
+    "job_id": "10316801",
+    "job_name": "interactive",
+    "job_nodelist": "armis20113",
+    "job_num_nodes": "1",
+    "job_partition": "gpu",
+    "job_qos": "normal",
+    "job_start_time": "1756495727",
+    "job_uid": "114447794",
+    "job_user": "sidcs",
+    "jobid": "10316801",
+    "launch_node_ipaddr": "141.211.19.19",
+    "localid": "0",
+    "mem_per_node": "122880",
+    "mpi_type": "none",
+    "nnodes": "1",
+    "nodeid": "0",
+    "nodelist": "armis20113",
+    "nprocs": "1",
+    "ntasks": "1",
+    "oom_kill_step": "0",
+    "prio_process": "0",
+    "procid": "0",
+    "pty_port": "62172",
+    "pty_win_col": "118",
+    "pty_win_row": "53",
+    "script_context": "prolog_task",
+    "srun_comm_host": "141.211.19.19",
+    "srun_comm_port": "62173",
+    "step_id": "4294967290",
+    "step_launcher_port": "62173",
+    "step_nodelist": "armis20113",
+    "step_num_nodes": "1",
+    "step_num_tasks": "1",
+    "step_tasks_per_node": "1",
+    "stepid": "4294967290",
+    "submit_dir": "/scratch/profdj_root/profdj0/sidcs/codebase/bash_scripts",
+    "submit_host": "armis2-login3.arc-ts.umich.edu",
+    "task_pid": "977664",
+    "tasks_per_node": "1",
+    "topology_addr": "armis20113",
+    "topology_addr_pattern": "node",
+    "tres_per_task": "cpu=16"
+  },
+  "writerId": "ujnpr235qxj4qckw2z9bozqqwaclrlfg"
+}

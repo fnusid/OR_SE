@@ -1,0 +1,47 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type          | Params | Mode
+------------------------------------------------------------
+0 | loss_fn           | LossWrapper   | 0      | train
+1 | metric            | MetricWrapper | 0      | train
+2 | stft              | STFT          | 0      | train
+3 | istft             | ISTFT         | 0      | train
+4 | enc_layers        | ModuleList    | 194 K  | train
+5 | bottleneck_layers | ModuleList    | 1.1 M  | train
+6 | dec_layers        | ModuleList    | 193 K  | train
+------------------------------------------------------------
+1.4 M     Trainable params
+0         Non-trainable params
+1.4 M     Total params
+5.766     Total estimated model params size (MB)
+71        Modules in train mode
+0         Modules in eval mode
+Sanity Checking: |                                                             | 0/? [00:00<?, ?it/s]
+
+Detected KeyboardInterrupt, attempting graceful shutdown ...
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x14615dfae020>
+Traceback (most recent call last):
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1664, in __del__
+    self._shutdown_workers()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1628, in _shutdown_workers
+    w.join(timeout=_utils.MP_STATUS_CHECK_INTERVAL)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/multiprocessing/popen_fork.py", line 41, in wait
+    if not wait([self.sentinel], timeout):
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/multiprocessing/connection.py", line 1148, in wait
+    ready = selector.select(timeout)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/selectors.py", line 398, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt:
+Exception ignored in atexit callback <function _start_and_connect_service.<locals>.teardown_atexit at 0x1461238baf20>:
+Traceback (most recent call last):
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/wandb/sdk/lib/service/service_connection.py", line 54, in teardown_atexit
+    conn.teardown(hooks.exit_code)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/wandb/sdk/lib/service/service_connection.py", line 182, in teardown
+    self._router.join()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/wandb/sdk/interface/router.py", line 75, in join
+    self._thread.join()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/threading.py", line 1094, in join
+    self._handle.join(timeout)
+KeyboardInterrupt:

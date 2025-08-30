@@ -1,0 +1,29 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type          | Params | Mode
+------------------------------------------------------------
+0 | loss_fn           | LossWrapper   | 0      | train
+1 | metric            | MetricWrapper | 0      | train
+2 | stft              | STFT          | 0      | train
+3 | istft             | ISTFT         | 0      | train
+4 | enc_layers        | ModuleList    | 194 K  | train
+5 | bottleneck_layers | ModuleList    | 1.1 M  | train
+6 | dec_layers        | ModuleList    | 193 K  | train
+------------------------------------------------------------
+1.4 M     Trainable params
+0         Non-trainable params
+1.4 M     Total params
+5.766     Total estimated model params size (MB)
+71        Modules in train mode
+0         Modules in eval mode
+Epoch 0:   0%|                                                                                                                                             | 0/2521 [00:00<?, ?it/s]
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:433: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=15` in the `DataLoader` to improve performance.
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torchaudio/_backend/utils.py:213: UserWarning: In 2.9, this function's implementation will be changed to use torchaudio.load_with_torchcodec` under the hood. Some parameters like ``normalize``, ``format``, ``buffer_size``, and ``backend`` will be ignored. We recommend that you port your code to rely directly on TorchCodec's decoder instead: https://docs.pytorch.org/torchcodec/stable/generated/torchcodec.decoders.AudioDecoder.html#torchcodec.decoders.AudioDecoder.
+  warnings.warn(
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/functional.py:730: UserWarning: stft with return_complex=False is deprecated. In a future pytorch release, stft will return complex tensors for all inputs, and return_complex=False will raise an error.
+Note: you can still call torch.view_as_real on the complex output to recover the old return format. (Triggered internally at /pytorch/aten/src/ATen/native/SpectralOps.cpp:875.)
+  return _VF.stft(  # type: ignore[attr-defined]
+/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torchaudio/_backend/utils.py:213: UserWarning: In 2.9, this function's implementation will be changed to use torchaudio.load_with_torchcodec` under the hood. Some parameters like ``normalize``, ``format``, ``buffer_size``, and ``backend`` will be ignored. We recommend that you port your code to rely directly on TorchCodec's decoder instead: https://docs.pytorch.org/torchcodec/stable/generated/torchcodec.decoders.AudioDecoder.html#torchcodec.decoders.AudioDecoder.
+  warnings.warn(
+
+Detected KeyboardInterrupt, attempting graceful shutdown ...

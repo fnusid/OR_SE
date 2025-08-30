@@ -1,0 +1,68 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type          | Params | Mode
+------------------------------------------------------------
+0 | loss_fn           | LossWrapper   | 0      | train
+1 | metric            | MetricWrapper | 0      | train
+2 | stft              | STFT          | 0      | train
+3 | istft             | ISTFT         | 0      | train
+4 | enc_layers        | ModuleList    | 194 K  | train
+5 | bottleneck_layers | ModuleList    | 1.1 M  | train
+6 | dec_layers        | ModuleList    | 193 K  | train
+------------------------------------------------------------
+1.4 M     Trainable params
+0         Non-trainable params
+1.4 M     Total params
+5.766     Total estimated model params size (MB)
+71        Modules in train mode
+0         Modules in eval mode
+Sanity Checking: |                                                             | 0/? [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/train.py", line 68, in <module>
+    trainer.fit(model, dm, ckpt_path=config.ckpt_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1054, in _run_stage
+    self._run_sanity_check()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1083, in _run_sanity_check
+    val_loop.run()
+    ~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 120, in run
+    self.setup_data()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 202, in setup_data
+    length = len(dl) if has_len_all_ranks(dl, trainer.strategy, allow_zero_length) else float("inf")
+                        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/utilities/data.py", line 99, in has_len_all_ranks
+    local_length = sized_len(dataloader)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/lightning_fabric/utilities/data.py", line 52, in sized_len
+    length = len(dataloader)  # type: ignore [arg-type]
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 542, in __len__
+    return len(self._index_sampler)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/sampler.py", line 348, in __len__
+    return (len(self.sampler) + self.batch_size - 1) // self.batch_size  # type: ignore[arg-type]
+            ~~~^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/sampler.py", line 120, in __len__
+    return len(self.data_source)
+  File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/dataset.py", line 90, in __len__
+    return len(self.train_speech)
+               ^^^^^^^^^^^^^^^^^
+AttributeError: 'ORDataset' object has no attribute 'train_speech'

@@ -1,0 +1,98 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type          | Params | Mode
+------------------------------------------------------------
+0 | loss_fn           | LossWrapper   | 0      | train
+1 | metric            | MetricWrapper | 0      | train
+2 | stft              | STFT          | 0      | train
+3 | istft             | ISTFT         | 0      | train
+4 | enc_layers        | ModuleList    | 194 K  | train
+5 | bottleneck_layers | ModuleList    | 1.1 M  | train
+6 | dec_layers        | ModuleList    | 193 K  | train
+------------------------------------------------------------
+1.4 M     Trainable params
+0         Non-trainable params
+1.4 M     Total params
+5.766     Total estimated model params size (MB)
+71        Modules in train mode
+0         Modules in eval mode
+Sanity Checking: |                                                                   | 0/? [00:00<?, ?it/s]
+Program interrupted. (Use 'cont' to resume).
+> /home/sidcs/miniconda3/envs/or_se/lib/python3.13/threading.py(363)wait()
+-> gotit = waiter.acquire(True, timeout)
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+--KeyboardInterrupt--
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/scratch/profdj_root/profdj0/sidcs/codebase/or_se/src/train.py", line 68, in <module>
+    trainer.fit(model, dm, ckpt_path=config.ckpt_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1054, in _run_stage
+    self._run_sanity_check()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/trainer.py", line 1083, in _run_sanity_check
+    val_loop.run()
+    ~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/evaluation_loop.py", line 138, in run
+    batch, batch_idx, dataloader_idx = next(data_fetcher)
+                                       ~~~~^^^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fetchers.py", line 134, in __next__
+    batch = super().__next__()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/loops/fetchers.py", line 61, in __next__
+    batch = next(self.iterator)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/utilities/combined_loader.py", line 341, in __next__
+    out = next(self._iterator)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/utilities/combined_loader.py", line 142, in __next__
+    out = next(self.iterators[0])
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+    data = self._next_data()
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1492, in _next_data
+    idx, data = self._get_data()
+                ~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1444, in _get_data
+    success, data = self._try_get_data()
+                    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1285, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/queue.py", line 213, in get
+    self.not_empty.wait(remaining)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/threading.py", line 363, in wait
+    gotit = waiter.acquire(True, timeout)
+    ^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/bdb.py", line 116, in trace_dispatch
+    return self.dispatch_opcode(frame, arg)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/sidcs/miniconda3/envs/or_se/lib/python3.13/bdb.py", line 216, in dispatch_opcode
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit
