@@ -36,7 +36,7 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
 5.766     Total estimated model params size (MB)
 71        Modules in train mode
 0         Modules in eval mode
-Epoch 9:  16%|▏| 98/630 [00:49<04:26,  1.99it/s, v_num=6unt, train_loss_step=0.227, train_loss_epoch=0.228, val_loss=0.228, SIG=2.280, BAK=3.260, OVRL=1.7
+Epoch 15:  46%|▍| 289/630 [02:23<02:48,  2.02it/s, v_num=6unt, train_loss_step=0.238, train_loss_epoch=0.228, val_loss=0.231, SIG=2.240, BAK=3.470, OVRL=1
 /home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:433: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=3` in the `DataLoader` to improve performance.
 /home/sidcs/miniconda3/envs/or_se/lib/python3.13/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
   warnings.warn(  # warn only once

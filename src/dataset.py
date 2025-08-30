@@ -295,6 +295,7 @@ class ORDataModule(pl.LightningDataModule):
 # ---------------------------
 if __name__ == "__main__":
     # expects lists of file paths; change these if you want to run locally
+    breakpoint()
     dm = ORDataModule(
         speech_list="utils/segments_speech8s.txt",
         noise_list="utils/segments_noise8s.txt",

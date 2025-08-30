@@ -17,7 +17,7 @@ class ORSEModel(pl.LightningModule):
                  hop_len = 256,
                  fft_len = 512,
                  win = 'sine',
-                 length = 1,
+                 length = 8,
                  enc_filters = [16,32,64,64,128,128,256],
                  enc_kernels = [(5,1), (3,1), (3,1), (3,1), (3,1), (3,1), (3,1)], #[F,T] keeping it causal
                  enc_strides = [(2,1), (2,1), (2,1), (2,1), (2,1), (2,1), (2,1)],
@@ -170,7 +170,15 @@ class ORSEModel(pl.LightningModule):
 
         
 if __name__ == "__main__":
+    import torchaudio
     model = ORSEModel()
+    breakpoint()
+    ckpt = torch.load('/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/4nb6krjq/checkpoints/best-checkpoint-epoch=84-val_loss=0.23.ckpt')
+    model.load_state_dict(ckpt['state_dict'])
+
+    #load the audio
+    audio, sr = torchaudio.load('/scratch/profdj_root/profdj0/sidcs/codebase/or_se/utils/noisy_sample.wav')
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     model.to(device)

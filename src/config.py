@@ -7,7 +7,7 @@ devices=4
 speech_list="utils/segments_speech8s.txt"
 noise_list="utils/segments_noise8s.txt"
 rir_list="utils/rirs.txt"
-batch_size=16
+batch_size=64
 num_workers=2
 sr=16_000
 segment_length=8.0
@@ -38,4 +38,4 @@ max_epochs=400
 check_val_every_n_epoch=5
 log_every_n_steps=10
 enable_checkpointing=True
-ckpt_path=None
+ckpt_path="/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/4nb6krjq/checkpoints/best-checkpoint-epoch=84-val_loss=0.23.ckpt"
