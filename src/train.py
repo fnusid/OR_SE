@@ -30,7 +30,7 @@ black .
 
 
 if __name__ == "__main__":
-    logger = WandbLogger(project="or_speech_enhancement")
+    logger = WandbLogger(project=config.project, name=config.model_name)
 
     model = ORSEModel(
         frame_len = config.frame_len,
