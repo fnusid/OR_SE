@@ -70,6 +70,7 @@ class ORDataset(Dataset):
         self.global_snr_range = tuple(kwargs.get("global_snr", (-5, 10)))  # dB
         # optional cap on RIR length for speed (seconds). None = no cap
         self.max_rir_seconds = kwargs.get("max_rir_seconds", 0.5)
+        self.peak_normalize = kwargs.get("peak_normalization", True)
 
         # per-worker lightweight caches
         self._rir_cache: Dict[str, torch.Tensor] = {}
@@ -192,6 +193,9 @@ class ORDataset(Dataset):
             noisy = self._add_noise_at_snr(reverb, noise, snr)
         else:
             noisy = reverb
+        if self.peak_normalize:
+            noisy = noisy / noisy.max(axis = -1)[0] #get only the max values and not indices
+            clean = clean / clean.max(axis= -1)[0]
 
         return {"noisy": noisy, "clean": clean}
 

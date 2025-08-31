@@ -8,12 +8,13 @@ speech_list="utils/segments_speech8s.txt"
 noise_list="utils/segments_noise8s.txt"
 rir_list="utils/rirs.txt"
 batch_size=64
-num_workers=2
+num_workers = 2
 sr=16_000
 segment_length=8.0
 global_snr=(-5, 10)
 add_noise_prob=0.8
 early_reverb_sec=0.05
+peak_normalization=True
 
 #Model params
 frame_len = 512
@@ -27,7 +28,7 @@ enc_strides = [(2,1), (2,1), (2,1), (2,1), (2,1), (2,1), (2, 1)]
 in_channels = 2 # real and imag, or mag and phase
 num_bottleneck_layers = 2
 loss_fn = ["mse", "complex_spectral"]
-loss_weights = [0.5, 0.5]
+loss_weights = [0.5, 0.001]
 lr = 1e-3
 alpha=0.5 
 metric='DNSMOS'
@@ -35,11 +36,11 @@ world_size = 4
 
 #Trainer params
 max_epochs=400
-check_val_every_n_epoch=5
+check_val_every_n_epoch=1
 log_every_n_steps=10
 enable_checkpointing=True
-ckpt_path="/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/4nb6krjq/checkpoints/best-checkpoint-epoch=84-val_loss=0.23.ckpt"
+ckpt_path=None
 
 #wandb params
 project="or_speech_enhancement"
-model_name="baseline"
+model_name="baseline_loss_0.5_0.001"

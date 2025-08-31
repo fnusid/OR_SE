@@ -144,7 +144,7 @@ class ORSEModel(pl.LightningModule):
 
         noisy, clean = batch
         loss, enhanced_time = self._common_step(noisy, clean)
-        self.log_dict({'train_loss': loss, }, prog_bar=True, on_step=True, on_epoch=True, sync_dist=True)
+        self.log_dict({'train_loss': loss, }, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
         return {'loss': loss,}
     
     def validation_step(self, batch, batch_idx):

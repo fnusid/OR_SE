@@ -61,6 +61,7 @@ if __name__ == "__main__":
         global_snr=config.global_snr,
         add_noise_prob=config.add_noise_prob,
         early_reverb_sec=config.early_reverb_sec,
+        peak_normalize = config.peak_normalization
     )
 
     # Train the model using pl trainer
