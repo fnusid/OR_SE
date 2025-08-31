@@ -30,7 +30,7 @@ black .
 
 
 if __name__ == "__main__":
-    logger = WandbLogger(project=config.project, name=config.model_name)
+    logger = WandbLogger(project=config.project, name=config.model_name, config=config)
 
     model = ORSEModel(
         frame_len = config.frame_len,

@@ -43,4 +43,4 @@ ckpt_path=None
 
 #wandb params
 project="or_speech_enhancement"
-model_name="baseline_loss_0.5_0.001"
+model_name="baseline_loss_0.5_0.001_peaknorm"
