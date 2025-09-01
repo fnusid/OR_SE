@@ -31,7 +31,7 @@ loss_fn = ["mse", "complex_spectral"]
 loss_weights = [0.5, 0.001]
 lr = 1e-3
 alpha=0.5 
-metric='DNSMOS'
+metric=['DNSMOS', 'PESQ']
 world_size = 4
 
 #Trainer params
