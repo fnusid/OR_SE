@@ -153,14 +153,18 @@ class ORSEModel(pl.LightningModule):
         metric_scores = self.metric(enhanced_time, gts=clean, sr=16000)
         self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL'], 'PESQ': metric_scores['PESQ']}, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
         if batch_idx % 10 == 0:
+            logger = self.logger
             #log audio
-            self.log({
-                        "clean_speech": wandb.Audio(clean, sample_rate=16_000, caption="Clean Speech"),
-                        "noisy_speech": wandb.Audio(noisy, sample_rate=16_000, caption="Noisy Speech"),
-                        "processed_speech": wandb.Audio(enhanced_time, sample_rate=16_000, caption="Denoised Speech"),
-                    })
+            logs={}
+            for i in range(10):
+                logs.update({
+                    f"audio/{i}/noisy":    wandb.Audio(noisy[i].detach().cpu().numpy(),    sample_rate=16000, caption=f"Noisy {i}"),
+                    f"audio/{i}/enhanced": wandb.Audio(enhanced_time[i].detach().cpu().numpy(), sample_rate=16000, caption=f"Enhanced {i}"),
+                    f"audio/{i}/clean":    wandb.Audio(clean[i].detach().cpu().numpy(),    sample_rate=16000, caption=f"Clean {i}"),
+                })
+            logger.experiment.log(logs)
 
-        return {'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}
+        return {'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL'], 'PESQ': metric_scores['PESQ']}
     
     def _common_step(self, noisy, clean):
         enhanced_time, enhanced_spec = self.forward(noisy)
