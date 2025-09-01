@@ -1,6 +1,6 @@
 #Compute related
 accelerator="gpu"
-devices=4
+devices=1
 
 
 #Dataset params
@@ -8,7 +8,7 @@ speech_list="utils/segments_speech8s.txt"
 noise_list="utils/segments_noise8s.txt"
 rir_list="utils/rirs.txt"
 batch_size=64
-num_workers = 2
+num_workers = 0
 sr=16_000
 segment_length=8.0
 global_snr=(-5, 10)

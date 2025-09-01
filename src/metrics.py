@@ -30,12 +30,12 @@ class MetricWrapper(nn.Module):
             
     def forward(self, wavs,sr, gts=None):
         metric_values = {}
-        for i, metric_fn in self.metrics_fn_list:
+        for i, metric_fn in enumerate(self.metrics_fn_list):
             if self.metrics_names[i] == 'PESQ':
                 metric_scores = metric_fn(sr, gts.detach().numpy(), wavs.detach().numpy(), mode='wb')
                 metric_values['PESQ'] = np.mean(metric_scores).item()
             elif self.metrics_names[i]=='DNSMOS':
-                metric_scores = self.metric.score_torch_batch(wavs, sr)
+                metric_scores = metric_fn.score_torch_batch(wavs, sr)
                 SIG = metric_scores['SIG'].mean()
                 BAK = metric_scores['BAK'].mean()
                 OVRL = metric_scores['OVRL'].mean()
