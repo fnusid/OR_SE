@@ -30,7 +30,12 @@ black .
 
 
 if __name__ == "__main__":
-    logger = WandbLogger(project=config.project, name=config.model_name, config=config)
+    config_dict = {
+    k: v for k, v in vars(config).items()
+    if not k.startswith("__") and not callable(v)
+    }    
+
+    logger = WandbLogger(project=config.project, name=config.model_name, config=config_dict)
 
     model = ORSEModel(
         frame_len = config.frame_len,
@@ -77,7 +82,7 @@ if __name__ == "__main__":
 
         callbacks=[
             EarlyStopping(monitor='val_loss', patience=10, mode='min'),
-            ModelCheckpoint(monitor='val_loss', mode='min', save_top_k=3, filename='best-checkpoint-{epoch:02d}-{val_loss:.2f}')
+            ModelCheckpoint(dirpath=f'/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/{config.model_name}', monitor='val_loss', mode='min', save_top_k=3, filename='best-checkpoint-{epoch:02d}-{val_loss:.2f}')
         ],
         logger=logger,
     )

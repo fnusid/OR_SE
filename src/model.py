@@ -152,6 +152,14 @@ class ORSEModel(pl.LightningModule):
         loss, enhanced_time = self._common_step(noisy, clean)
         metric_scores = self.metric(enhanced_time, sr=16000)
         self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
+        if batch_idx % 10 == 0:
+            #log audio
+            self.log({
+                        "clean_speech": wandb.Audio(clean, sample_rate=16_000, caption="Clean Speech"),
+                        "noisy_speech": wandb.Audio(noisy, sample_rate=16_000, caption="Noisy Speech"),
+                        "processed_speech": wandb.Audio(enhanced_time, sample_rate=16_000, caption="Denoised Speech"),
+                    })
+
         return {'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}
     
     def _common_step(self, noisy, clean):
