@@ -32,7 +32,7 @@ class MetricWrapper(nn.Module):
         metric_values = {}
         for i, metric_fn in enumerate(self.metrics_fn_list):
             if self.metrics_names[i] == 'PESQ':
-                metric_scores = metric_fn(sr, gts.detach().numpy(), wavs.detach().numpy(), mode='wb')
+                metric_scores = metric_fn(sr, gts.detach().cpu().numpy(), wavs.detach().cpu().numpy(), mode='wb')
                 metric_values['PESQ'] = np.mean(metric_scores).item()
             elif self.metrics_names[i]=='DNSMOS':
                 metric_scores = metric_fn.score_torch_batch(wavs, sr)
