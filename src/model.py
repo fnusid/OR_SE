@@ -27,7 +27,7 @@ class ORSEModel(pl.LightningModule):
                  loss_weights = [0.5, 0.5],
                  lr = 1e-3,
                  alpha=0.5, 
-                 metric='DNSMOS',
+                 metric=['DNSMOS', 'PESQ'],
                  world_size = 1
 
                  ):
@@ -150,8 +150,8 @@ class ORSEModel(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         noisy, clean = batch 
         loss, enhanced_time = self._common_step(noisy, clean)
-        metric_scores = self.metric(enhanced_time, sr=16000)
-        self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
+        metric_scores = self.metric(enhanced_time, gts=clean, sr=16000)
+        self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL'], 'PESQ': metric_scores['PESQ']}, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
         if batch_idx % 10 == 0:
             #log audio
             self.log({

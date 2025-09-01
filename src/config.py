@@ -39,7 +39,7 @@ max_epochs=400
 check_val_every_n_epoch=1
 log_every_n_steps=10
 enable_checkpointing=True
-ckpt_path='/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/pc37t0cz/checkpoints/best-checkpoint-epoch=13-val_loss=0.02.ckpt'
+ckpt_path='/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/baseline_loss_0.5_0.001_peaknorm/best-checkpoint-epoch=16-val_loss=0.02.ckpt'
 
 #wandb params
 project="or_speech_enhancement"
