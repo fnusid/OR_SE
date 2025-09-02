@@ -53,6 +53,8 @@ if __name__ == "__main__":
         lr = config.lr,
         alpha=config.alpha, 
         metric=config.metric,
+        log_audio_every_n_epochs=config.log_audio_every_n_epochs,
+        max_audio_items=config.max_audio_items
     )
     # Load the data modules
     dm = ORDataModule(

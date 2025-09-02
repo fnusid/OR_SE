@@ -31,15 +31,17 @@ loss_fn = ["mse", "complex_spectral"]
 loss_weights = [0.5, 0.001]
 lr = 1e-3
 alpha=0.5 
-metric=['DNSMOS', 'PESQ']
+metric=['DNSMOS']
 world_size = 4
+log_audio_every_n_epochs = 5
+max_audio_items=5
 
 #Trainer params
 max_epochs=400
 check_val_every_n_epoch=1
 log_every_n_steps=10
 enable_checkpointing=True
-ckpt_path='/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/baseline_loss_0.5_0.001_peaknorm/best-checkpoint-epoch=16-val_loss=0.02.ckpt'
+ckpt_path='/scratch/profdj_root/profdj0/sidcs/codebase/or_se/or_speech_enhancement/baseline_loss_0.5_0.001_peaknorm/best-checkpoint-epoch=22-val_loss=0.02.ckpt'
 
 #wandb params
 project="or_speech_enhancement"

@@ -9,6 +9,7 @@ import sys
 from src.loss import LossWrapper
 from src.metrics import MetricWrapper
 from utils.stft_istft import STFT, ISTFT
+from pytorch_lightning.loggers.wandb import WandbLogger
 
 
 class ORSEModel(pl.LightningModule):
@@ -28,7 +29,10 @@ class ORSEModel(pl.LightningModule):
                  lr = 1e-3,
                  alpha=0.5, 
                  metric=['DNSMOS', 'PESQ'],
-                 world_size = 1
+                 world_size = 1,
+                 log_audio_every_n_epochs = 5,
+                 max_audio_items=5,
+
 
                  ):
         super(ORSEModel, self).__init__()
@@ -38,6 +42,11 @@ class ORSEModel(pl.LightningModule):
         self.metric = MetricWrapper(metric)
         self.lr = lr
         self.world_size = world_size
+        #logger params
+        self.log_audio_every_n_epochs = log_audio_every_n_epochs
+        self.max_audio_items = max_audio_items
+        self._val_audio_cache = None
+        self._val_audio_cache_epoch = -1
 
         #Define the stft params and layers
         self.frame_len = frame_len
@@ -137,8 +146,34 @@ class ORSEModel(pl.LightningModule):
     def on_train_epoch_end(self):
         pass
 
-    def on_valid_epoch_end(self):
-        pass
+    def on_validation_epoch_end(self):
+        if not self.trainer.is_global_zero:
+            return
+        if (self.current_epoch % self.log_audio_every_n_epochs) != 0:
+            return
+        if self._val_audio_cache is None or self._val_audio_cache_epoch != self.current_epoch:
+            return
+
+        logger = self.logger
+        assert isinstance(logger, WandbLogger), "Use WandbLogger to log audio/media."
+
+        noisy = self._val_audio_cache["noisy"]      # shape [K, T]
+        enhanced = self._val_audio_cache["enhanced"]
+        clean = self._val_audio_cache["clean"]
+
+        logs = {}
+        for i in range(noisy.shape[0]):
+            logs.update({
+                f"audio/{i}/noisy":    wandb.Audio(noisy[i],    sample_rate=16000, caption=f"Noisy {i}"),
+                f"audio/{i}/enhanced": wandb.Audio(enhanced[i], sample_rate=16000, caption=f"Enhanced {i}"),
+                f"audio/{i}/clean":    wandb.Audio(clean[i],    sample_rate=16000, caption=f"Clean {i}"),
+            })
+
+        # keep step/epoch aligned in W&B
+        logger.experiment.log(
+            {"epoch": self.current_epoch, **logs},
+            step=int(self.global_step)
+        )
 
     def training_step(self, batch, batch_idx):
 
@@ -151,20 +186,18 @@ class ORSEModel(pl.LightningModule):
         noisy, clean = batch 
         loss, enhanced_time = self._common_step(noisy, clean)
         metric_scores = self.metric(enhanced_time, gts=clean, sr=16000)
-        self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL'], 'PESQ': metric_scores['PESQ']}, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
-        if batch_idx % 10 == 0:
-            logger = self.logger
-            #log audio
-            logs={}
-            for i in range(10):
-                logs.update({
-                    f"audio/{i}/noisy":    wandb.Audio(noisy[i].detach().cpu().numpy(),    sample_rate=16000, caption=f"Noisy {i}"),
-                    f"audio/{i}/enhanced": wandb.Audio(enhanced_time[i].detach().cpu().numpy(), sample_rate=16000, caption=f"Enhanced {i}"),
-                    f"audio/{i}/clean":    wandb.Audio(clean[i].detach().cpu().numpy(),    sample_rate=16000, caption=f"Clean {i}"),
-                })
-            logger.experiment.log(logs)
+        self.log_dict({'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}, prog_bar=True, on_step=False, on_epoch=True, sync_dist=True)
+        if batch_idx == 0 and self.trainer.is_global_zero:
+            B = noisy.size(0)
+            K = min(B, self.max_audio_items)
+            self._val_audio_cache = {
+                "noisy":    noisy[:K].detach().cpu().numpy(),
+                "enhanced": enhanced_time[:K].detach().cpu().numpy(),
+                "clean":    clean[:K].detach().cpu().numpy(),
+            }
+            self._val_audio_cache_epoch = self.current_epoch
 
-        return {'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL'], 'PESQ': metric_scores['PESQ']}
+        return {'val_loss': loss, 'SIG': metric_scores['SIG'], 'BAK': metric_scores['BAK'], 'OVRL': metric_scores['OVRL']}
     
     def _common_step(self, noisy, clean):
         enhanced_time, enhanced_spec = self.forward(noisy)
